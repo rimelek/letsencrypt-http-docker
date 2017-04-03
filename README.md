@@ -32,15 +32,17 @@ certbot certonly \
 To create categories, you can mount the directory from the host:
 
 ```bash
-docker run --rm -it -e LE_EMAIL=youremail@domain.tld -v `pwd`/domains:/domains rimelek/letsencrypt-http 
+docker run --rm -it -e LE_EMAIL=youremail@domain.tld -p 80:9080 -v `pwd`/domains:/domains rimelek/letsencrypt-http 
 ```
 
 If you want to create or renew only certain certificates, you can add the name of them at the end of the command:
 
 ```bash
-docker run --rm -it -e LE_EMAIL=youremail@domain.tld -v `pwd`/domains:/domains rimelek/letsencrypt-http "mydomain.tld myotherdomain.tld"
+docker run --rm -it -e LE_EMAIL=youremail@domain.tld -p 80:9080 -v `pwd`/domains:/domains rimelek/letsencrypt-http "mydomain.tld myotherdomain.tld"
 ```
 
 Make sure the name of the categories are enclosed in quotes!
+
+If you want to create certificates when your running webserver is listening on port 80, you have to use a reverse proxy like [HAProxy](https://hub.docker.com/_/haproxy/) or [nginx-proxy](https://github.com/jwilder/nginx-proxy).
 
 You can schedule this command with CRON to automate the process of renewing certificates.
